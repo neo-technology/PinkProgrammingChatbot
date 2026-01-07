@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Start a New Chat</h2>
+<form method="post">
+  <label>
+    Your first message
+    <textarea name="message" rows="3" required></textarea>
+  </label>
+  <button type="submit">Start Chat</button>
+</form>
+{% endblock %}
+

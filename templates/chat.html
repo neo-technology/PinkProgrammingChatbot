@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Chat</h2>
+
+{% if chat and chat.get('messages') %}
+  <article>
+    {% for m in chat.get('messages') %}
+      <p><strong>{{ m.get('role') }}:</strong> {{ m.get('content') }}</p>
+    {% endfor %}
+  </article>
+{% else %}
+  <p>No messages yet.</p>
+{% endif %}
+
+<form method="post">
+  <label>
+    Message
+    <textarea name="message" rows="3" required></textarea>
+  </label>
+  <button type="submit">Send</button>
+</form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Chats</h2>
+<p><a role="button" href="{{ url_for('chat_new') }}">Start New Chat</a></p>
+
+{% if not chats %}
+  <p>No chats yet. Start one!</p>
+{% else %}
+  <ul>
+  {% for c in chats %}
+    <li>
+      <a href="{{ url_for('chat', chat_id=c.get('id', loop.index)) }}">
+        {{ c.get('title', 'Chat ' ~ loop.index) }}
+      </a>
+      <small>{{ c.get('updatedAt') }}</small>
+    </li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

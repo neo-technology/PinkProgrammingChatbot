@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome</h1>
+<p>Log in or register to start chatting.</p>
+<p>
+  <a role="button" href="{{ url_for('login') }}">Login</a>
+  <a role="button" class="secondary" href="{{ url_for('register') }}">Register</a>
+{% endblock %}
+

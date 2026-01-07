@@ -1,0 +1,11 @@
+[project]
+name = "pinkprogrammingchatbot"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.9"
+dependencies = [
+    "flask>=3.1.2",
+    "neo4j>=5.23.1",
+    "python-dotenv>=1.0.1",
+    "openai>=1.54.0",
+]

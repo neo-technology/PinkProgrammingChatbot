@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Oops — Cypher Error</h2>
+<p>Looks like a Cypher TODO or syntax problem. Please complete or fix the query in <code>db.py</code>.</p>
+{% if message %}
+  <pre style="white-space: pre-wrap;">{{ message }}</pre>
+{% endif %}
+<p><a href="{{ request.referrer or url_for('index') }}">Go back</a></p>
+{% endblock %}
+
