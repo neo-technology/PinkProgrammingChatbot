@@ -16,7 +16,7 @@ Environment Variables
 - `NEO4J_CONNECTION_URI`: Neo4j Connection URI (copy from your Aura instance).
 - `NEO4J_USERNAME` / `NEO4J_PASSWORD`: (default username: neo4j, paste password that you get during the instance creation).
 - `OPENAI_API_KEY`: API key for OpenAI 
-- `OPENAI_BASE_URL`: api.openai.com (no need to change)
+- `OPENAI_BASE_URL`: https://api.openai.com/v1 (no need to change)
 
 Workshop Tasks (Cypher TODOs in `db.py`)
 - Create an account on https://console-preview.neo4j.io/ and create a free Aura instance.

@@ -1,7 +1,7 @@
 import os
 from typing import Optional
 
-from openai import OpenAI
+from openai import OpenAI, APIConnectionError, OpenAIError
 
 
 def get_openai_client() -> Optional[OpenAI]:
@@ -25,13 +25,18 @@ def generate_ai_response(prompt: str, model: str = "gpt-4o-mini") -> str:
         return "[AI unavailable: missing OPENAI_API_KEY]"
 
     # Using Chat Completions API for broad compatibility
-    resp = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt},
-        ],
-        temperature=0.3,
-    )
-    return resp.choices[0].message.content or ""
-
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=0.3,
+        )
+        return resp.choices[0].message.content or ""
+    except APIConnectionError:
+        return "[AI unavailable: connection error to OpenAI API]"
+    except OpenAIError as e:
+        # Generic safety net for other OpenAI errors (auth, rate limit, etc.)
+        return f"[AI error: {e.__class__.__name__}]"

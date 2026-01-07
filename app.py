@@ -99,7 +99,8 @@ def create_app() -> Flask:
     @login_required
     def chats():
         user = session["user"]
-        user_chats = list_user_chats(user_id=user.get("id", user.get("username")))
+        user_identifier = user.get("id") or user.get("username")
+        user_chats = list_user_chats(user_id=user_identifier)
         return render_template("chats.html", chats=user_chats)
 
     @app.route("/chats/<chat_id>", methods=["GET", "POST"])
