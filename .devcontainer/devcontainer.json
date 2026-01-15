@@ -2,7 +2,7 @@
   "name": "Pink Programing Chatbot Dev Container",
   "dockerFile": "Dockerfile",
   "features": {
-    "ghcr.io/devcontainers-extra/features/uv-tool:1": {}
+    "ghcr.io/va-h/devcontainers-features/uv:1": {}
   },
   "customizations": {
     "settings": {
@@ -30,10 +30,7 @@
         "ms-python.python",
         "streetsidesoftware.code-spell-checker",
         "vscode-icons-team.vscode-icons"
-      ],
-      "settings": {
-        "workbench.iconTheme": "vscode-icons"
-      }
+      ]
     }
   },
 
