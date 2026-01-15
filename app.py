@@ -28,6 +28,10 @@ def create_app() -> Flask:
     def handle_cypher_syntax(err: QuerySyntaxError):
         return render_template("error.html", message=str(err)), 400
 
+    @app.errorhandler(RuntimeError)
+    def handle_runtime_error(err: RuntimeError):
+        return render_template("error.html", message=str(err)), 400
+
     @app.route("/")
     def index():
         if session.get("user"):
