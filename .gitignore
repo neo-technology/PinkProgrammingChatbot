@@ -10,3 +10,4 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 .env
+__pycache__/
