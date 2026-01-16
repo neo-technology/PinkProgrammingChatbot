@@ -5,21 +5,17 @@ Overview
 - Participants complete the Cypher TODOs in `db.py` to enable user auth, chat creation, and viewing history.
 - OpenAI is used to generate assistant replies; reads config from environment variables.
 
-Quick Start
-- Python 3.9+
-- Install dependencies:
-  - uv: `uv sync` 
+Quick Start with Codespaces
+- Create an account on https://console-preview.neo4j.io/ and create a free Aura instance (make sure to save the password).
+- In the GitHub repository click the green "Use this template" button and open the project in a codespace.
 - Copy `.env.example` to `.env` and set values.
-- Run: `python app.py`
-
-Environment Variables
-- `NEO4J_CONNECTION_URI`: Neo4j Connection URI (copy from your Aura instance).
-- `NEO4J_USERNAME` / `NEO4J_PASSWORD`: (default username: neo4j, paste password that you get during the instance creation).
-- `OPENAI_API_KEY`: API key for OpenAI 
-- `OPENAI_BASE_URL`: https://api.openai.com/v1 (no need to change)
+  - `NEO4J_CONNECTION_URI`: Inspect your Aura instance and copy the connection URI.
+  - `NEO4J_PASSWORD`: (paste password that you got during the instance creation).
+- Open the Run and Debug menu and start the "Flask: run app.py" configuration.
+- It opens a terminal and starts the Flask development server, click on the link to open the app in a new browser tab.
+- Try registering a new user, you should see Cypher Error page which means you're ready to start the exercises!
 
 Workshop Tasks (Cypher TODOs in `db.py`)
-- Create an account on https://console-preview.neo4j.io/ and create a free Aura instance.
 - Create/Login User
   - `create_user(username, password_hash)`: create a `:User` with properties and return it.
   - `fetch_user_by_username(username)`: find a `:User` by username and return it.
@@ -35,8 +31,3 @@ Pages
 - `/chat/new`: start a new chat by sending the first message.
 - `/chats`: list previous chats.
 - `/chats/<chat_id>`: view and continue a chat.
-
-Safety and Dev Tips
-- Do not commit secrets. Use `.env` locally.
-- Hash passwords; never store plain text. We use `werkzeug.security`.
-- For production, set a strong `FLASK_SECRET_KEY` and configure HTTPS.
