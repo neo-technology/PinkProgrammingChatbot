@@ -12,8 +12,9 @@ from db import (
     QuerySyntaxError,
     create_chat_and_first_message,
     create_message,
+    get_previous_ai_chat_id,
+    get_ai_response
 )
-from ai import generate_ai_response
 
 
 def create_app() -> Flask:
@@ -74,7 +75,7 @@ def create_app() -> Flask:
                 flash("User not found.", "error")
                 return render_template("login.html")
 
-            stored_hash = user.get("password_hash")
+            stored_hash = user.get("passwordHash")
             if not stored_hash or not check_password_hash(stored_hash, password):
                 flash("Invalid credentials.", "error")
                 return render_template("login.html")
@@ -104,7 +105,7 @@ def create_app() -> Flask:
     def chats():
         user = session["user"]
         user_identifier = user.get("id") or user.get("username")
-        user_chats = list_user_chats(user_id=user_identifier)
+        user_chats = list_user_chats(username=user_identifier)
         return render_template("chats.html", chats=user_chats)
 
     @app.route("/chats/<chat_id>", methods=["GET", "POST"])
@@ -114,10 +115,11 @@ def create_app() -> Flask:
         if request.method == "POST":
             user_message = request.form.get("message", "").strip()
             if user_message:
-                create_message(chat_id, role="user", content=user_message)
-                ai_reply = generate_ai_response(user_message)
-                if ai_reply:
-                    create_message(chat_id, role="assistant", content=ai_reply)
+                    create_message(chat_id, role="user", content=user_message, previous_ai_chat_id=None)
+                    previous_chat_id = get_previous_ai_chat_id(chat_id)
+                    ai_response = get_ai_response(chat_id=chat_id, previous_chat_id=previous_chat_id, message=user_message)
+                    if ai_response:
+                        create_message(chat_id, role="ai", content=ai_response["message"], previous_ai_chat_id=ai_response["chatId"])
         chat_obj = fetch_chat(chat_id)
         if not chat_obj:
             flash("Chat not found or Cypher TODO incomplete.", "error")
@@ -137,10 +139,10 @@ def create_app() -> Flask:
             user_identifier = user.get("id") or user.get("username")
             new_chat = create_chat_and_first_message(user_identifier, user_message)
             chat_id = new_chat.get("id") if new_chat else None
-            # Generate AI reply and save as assistant message
-            ai_reply = generate_ai_response(user_message)
+            # Generate AI reply and save as ai message
+            ai_reply = get_ai_response(chat_id=chat_id, previous_chat_id=None, message=user_message)
             if chat_id and ai_reply:
-                create_message(chat_id, role="assistant", content=ai_reply)
+                create_message(chat_id, role="ai", content=ai_reply["message"], previous_ai_chat_id=ai_reply["chatId"])
                 return redirect(url_for("chat", chat_id=chat_id))
             flash("Chat created but could not determine chat id. Complete Cypher TODOs.", "warning")
             return redirect(url_for("chats"))
